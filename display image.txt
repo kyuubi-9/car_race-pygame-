@@ -1,0 +1,7 @@
+gameDisplay.blit(carImg, (x,y))
+--->>"Blit" basically just draws the image to the screen
+
+x =  (display_width * 0.45)
+y = (display_height * 0.8)
+--->>we've defined the starting points for our car.
+
