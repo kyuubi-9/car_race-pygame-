@@ -53,6 +53,24 @@ def message_display(text):
 def crash():
     message_display('you crashed')
 
+def game_intro():
+    
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf',115)
+        TextSurf, TextRect = text_objects("A bit Racey", largeText)
+        TextRect.center = ((display_width/2),(display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+        pygame.display.update()
+        clock.tick(15)
+
 def game_loop():
     x = (display_width * 0.45)
     y = (display_height * 0.8)
@@ -107,7 +125,7 @@ def game_loop():
             dodged += 1
             thing_speed += 1
             thing_width += (dodged * 1.2)
-            
+
         if y < thing_starty+thing_height:
             print('y crossover')
 
@@ -120,6 +138,7 @@ def game_loop():
 
 
 
+game_intro()
 game_loop()
 pygame.quit()
 quit()
