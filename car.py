@@ -56,6 +56,27 @@ def message_display(text):
 def crash():
     message_display('you crashed')
 
+def button(msg,x,y,w,h,ic,ac,action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    print(click)
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            action()         
+    else:
+        pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
+
+    smallText = pygame.font.SysFont("comicsansms",20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(textSurf, textRect)
+
+def quitgame():
+    pygame.quit()
+    quit()
+
 def game_intro():
     
     intro = True
@@ -63,21 +84,18 @@ def game_intro():
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                quitgame()
+               
                 
         gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf',115)
         TextSurf, TextRect = text_objects("A bit Racey", largeText)
         TextRect.center = ((display_width/2),(display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
-        mouse = pygame.mouse.get_pos()
-    
-        if 150+100 > mouse[0] > 150 and 450+50 > mouse[1] > 450:
-            pygame.draw.rect(gameDisplay, bright_green,(150,450,100,50))
-        else:
-            pygame.draw.rect(gameDisplay, green,(150,450,100,50))
-        pygame.draw.rect(gameDisplay, red,(550,450,100,50))
+        
+        button("GO!",150,450,100,50,green,bright_green,game_loop)
+        button("Quit",550,450,100,50,red,bright_red,quitgame)
+        
         
         pygame.display.update()
         clock.tick(15)
@@ -121,7 +139,7 @@ def game_loop():
 
         gameDisplay.fill(white)
 
-        things(thing_startx, thing_starty, thing_width, thing_height, black)
+        things(thing_startx, thing_starty, thing_width, thing_height, block_color)
         
         thing_starty += thing_speed
         car(x,y)
